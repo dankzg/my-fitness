@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode}}">
+
+{{ partial "header/index.html" . }}
+
+<body class="bg-main text-xs" style="font-size:14px">
+  <div id="app">
+    <header class="bg-gray-500 bg-opacity-100 text-white p-2">
+      <nav class="flex flex-row w-full">
+        <div class="flex-1 w-auto">
+          <ul class="flex flex-row">
+            <li class="mr-2"><a href="https://mail.google.com"><i class="el-icon-edit"></i></a></li>
+            <li><a href="https://mail.google.com"><i class="el-icon-edit"></i></a></li>
+          </ul>
+        </div>
+        <div class="flex-none w-32">
+          <ul class="datetime text-right flex flex-row space-x-1 right-0">
+            <li class="text-right"><i class="el-icon-date mr-1"></i>[[today]]</li>
+            <li class="date"><i class="el-icon-timer mr-1"></i>12:06</li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main class="flex flex-row">
+      <div class="w-2/3">
+        <div class="relative m-4">
+          <div class="border-r-4 border-gray-500 absolute h-full top-2 z-0 pl-2.5"></div>
+          <ul class="list-none m-0 p-0">
+            <li class="mb-2">
+              <div class="flex items-center mb-5">
+                <div class="flex flex-row rounded-full border-2 border-black text-white p-1 bg-card z-50">
+                  <div class="bg-gray-500 rounded-full h-4 w-4 border-2 border-main mr-2"></div>
+                  <span class="mr-2" v-if="showDatePicker === false" @click="changeMonth">[[selMonthStr]]</span>
+                  <span class="mr-2" v-if="showDatePicker === true">
+                    <el-date-picker v-model="selMonth" type="month" size="mini" :editable="false" placeholder="选择月份"
+                      format="yyyy 年 MM 月" @change="selectMonth" class="bg-main">
+                    </el-date-picker>
+                  </span>
+                  <i class="el-icon-edit font-bold text-white pt-1 pr-1" @click="changeMonth"></i>
+                </div>
+              </div>
+            </li>
+            <li class="mb-2 pl-2" v-for="(value,index) in homeDatas" :key="index">
+              <div class="flex items-center mb-1">
+                <div class="bg-gray-500 rounded-full h-2 w-2 border-2 border-main z-50"></div>
+                <div class="text-gray-500 font-bold">---</div>
+                <div class="flex-1  font-medium">
+                  <span
+                    class="rounded-full border-2 border-black text-white p-2 bg-gradient-to-r from-blue-300 to-blue-400">[[
+                    value.date.val]] 第[[ value.date.week]]周 [[ value.date.dayname]]</span>
+                </div>
+              </div>
+              <div class="ml-12">
+                <ul class="flex flex-row flex-wrap">
+                  <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
+                    v-if="value.data.whr != undefined">
+                    <div class="p-1 flex flex-row">
+                      <div class="w-1/2">
+                        <i class="iconfont icon-jianshen-60 mr-2 text-green-400 font-bold"></i>身体围度
+                      </div>
+                      <i class="el-icon-more text-right w-full" @click="displayInfo('whr',index)"></i>
+                    </div>
+                    <div class="bg-black p-1">
+                      <ul class="flex flex-wrap">
+                        <li class="w-1/3" v-for="(item,itemkey) in value.data.whr" :key="itemkey">
+                          <div class="w-full text-gray-500">[[item.name]]</div>
+                          <span class="text-xs">[[item.num]]厘米</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="p-1"></div>
+                  </li>
+                  <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
+                    v-if="value.data.bmi != undefined">
+                    <div class="p-1 flex flex-row">
+                      <div class="w-1/2">
+                      <i class="iconfont icon-jianshen-73 mr-2 text-blue-400 font-bold"></i>身体数据
+                      </div>
+                      <i class="el-icon-more text-right w-full" @click="displayInfo('bmi',index)"></i>
+                    </div>
+                    <div class="bg-black p-1">
+                      <ul class="flex flex-wrap">
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">BMI</div>
+                          <span class="text-xs">29.1</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">脂肪率</div>
+                          <span class="text-xs">26.3%</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">体重</div>
+                          <span class="text-xs">85.26 公斤</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">去脂体重</div>
+                          <span class="text-xs">63.6 公斤</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">基础代谢(天)</div>
+                          <span class="text-xs">1785 千卡</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
+                    v-if="value.data.fitness != undefined">
+                    <div class="p-1"><i class="iconfont icon-jianshen-77 mr-2 text-yellow-400 font-bold"></i>运动数据</div>
+                    <div class="bg-black p-1">
+                      <ul class="flex flex-wrap">
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">BMI</div>
+                          <span class="text-xs">29.1</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">脂肪率</div>
+                          <span class="text-xs">26.3%</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">体重</div>
+                          <span class="text-xs">85.26 公斤</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">去脂体重</div>
+                          <span class="text-xs">63.6 公斤</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">基础代谢(天)</div>
+                          <span class="text-xs">1785 千卡</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
+                    v-if="value.data.foods != undefined">
+                    <div class="p-1"><i class="iconfont icon-jianshen-62 mr-2 text-indigo-400 font-bold"></i>饮食数据</div>
+                    <div class="bg-black p-1">
+                      <ul class="flex flex-wrap">
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">第一餐</div>
+                          <span class="text-xs">300 千卡</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">第二餐</div>
+                          <span class="text-xs">290 千卡</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">第三餐</div>
+                          <span class="text-xs">620 千卡</span>
+                        </li>
+                        <li class="w-1/3">
+                          <div class="w-full text-gray-500">第四餐</div>
+                          <span class="text-xs">150 千卡</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="flew-grow w-1/4">
+        {{block "main" .}}
+        {{end}}
+      </div>
+    </main>
+  </div>
+</body>
+<script>
+  var app = new Vue({
+    delimiters: ['[[', ']]'],
+    el: "#app",
+    data: function () {
+      return {
+        visible: false,
+        today: moment().format("YYYY-MM-DD"),
+        showDatePicker: false,
+        selMonth: moment().format("YYYY-MM-01"),
+        selMonthStr: moment().format("YYYY年MM月"),
+        baseDatas: {},
+        selDatas: new Array(),
+        configDatas: [],
+        showTemplate: "whr",
+        moreInfo: {}
+      }
+    },
+    created: function () {
+      const url = "/datas/display.json"
+      axios.get(url).then((response) => {
+        //console.log(response)
+        this.configDatas = response.data.home
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    mounted: function () {
+      this.getFiles(this.selMonth)
+    },
+    computed: {
+      homeDatas: function () {
+        var datas = new Array()
+        this.selDatas.forEach((v, k) => {
+          var cardData = {}
+
+          this.configDatas.forEach((conf, key) => {
+            var itemDatas = new Array()
+            conf.items.forEach((item, ikey) => {
+              var selStr = conf.name + "." + item.item
+              //console.log(selStr)
+              //console.log(v.data)
+              let num = checkUndefined(v.data, selStr)
+              if (num !== null && num !== undefined) {
+                itemDatas.push({
+                  "name": item.name,
+                  "num": num
+                })
+              }
+            })
+            if (itemDatas.length > 0) {
+              cardData[conf.name] = itemDatas
+            }
+          })
+          //console.log(v)
+          datas.push({
+            date: v.date,
+            data: cardData
+          })
+        })
+        return datas
+      }
+    },
+    methods: {
+      getFiles: function (month) {
+        let startMonth = moment(month).startOf("month")
+        let endMonth = moment(month).endOf("month")
+        let days = moment(month).endOf("month").format("DD")
+        var datas = new Array()
+
+        for (i = 0; i < days; i++) {
+          //let fileName = startMonth.format("YYYY-MM-DD")
+          this.getJson(datas, startMonth.format("YYYY-MM-DD"))
+          startMonth.add(1, "days")
+        }
+        this.baseDatas[moment(month).format("YYYY-MM")] = datas
+        this.selDatas = datas
+        //console.log(this.baseDatas)
+        //console.log(this.selDatas)
+        //console.log(this.configDatas)
+      },
+      getJson: function (datas, dayStr) {
+        let day = moment(dayStr)
+        //let datas = null
+        const url = "/datas/" + day.format("YYYYMM") + "/" + day.format("DD") + ".json"
+        //console.log(url)
+        axios
+          .get(url)
+          .then((response) => {
+            //console.log(response.data.data)
+            //console.log(day.format("YYYYMMDD"))
+            datas.push({
+              "date": {
+                "val": day.format("YYYY-MM-DD"),
+                "week": day.format("ww"),
+                "dayname": day.format("dddd")
+              },
+              "data": response.data.data
+            })
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 404) {
+              return null
+              //console.clear();
+            }
+          });
+      },
+      changeMonth: function () {
+        //console.log(this.selMonth)
+        this.showDatePicker = true
+        //console.log(this.showDatePicker)
+      },
+      selectMonth: function (e) {
+        if (e == null) {
+          this.selMonth = moment().format("YYYY-MM-DD")
+          this.selMonthStr = moment().format("YYYY年MM月")
+        } else {
+          this.selMonth = moment(e).format("YYYY-MM-DD")
+          this.selMonthStr = moment(e).format("YYYY年MM月")
+        }
+        this.showDatePicker = false
+        this.getFiles(this.selMonth)
+      },
+      displayInfo: function (infoType, index) {
+        this.showTemplate = infoType
+        console.log("click")
+        console.log("inforType")
+        console.log(infoType)
+        console.log(index)
+        //console.log(event)
+        this.moreInfo = this.selDatas[index]
+      }
+    }
+  });
+  //app.use(ElementPlus);
+  //app.mount("#app");
+  //ElementPlus.locale(ElementPlus.lang.zhCn)
+
+  //app.use(ElementPlus).mount("#app");
+</script>
+
+</html>

@@ -1,0 +1,6 @@
+{{define "main"}}
+<block v-if="showTemplate === 'whr'">
+  {{ partial "main/whr.html" . }}
+</block>
+<div v-if="showTemplate === 'bmi'">bmi</div>
+{{end}}
