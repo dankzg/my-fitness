@@ -1,0 +1,53 @@
+{
+	"data": {
+		"whr": {
+			"bust": {
+				"relaxed": 120,
+				"inhaled": 130,
+				"exhaled": 115
+			},
+			"waist": {
+				"relaxed": 95
+			},
+			"upperarm": {
+				"relaxed": 29,
+				"tense": 35,
+				"lateral": 29
+			},
+			"forearm": {
+				"relaxed": 25,
+				"tense": 26
+			},
+			"hipline": {
+				"relaxed": 96
+			},
+			"thigh": {
+				"relaxed": 95,
+				"tense": 98
+			},
+			"calf": {
+				"relaxed": 45,
+				"tense": 47
+			}
+		},
+		"bmi": {
+			"weight": 86.5,
+			"bmi": 27,
+			"bfr": 26.7
+		},
+		"fitness": {
+			"chest": [{
+				"name": "Incline Bench Press",
+				"nums": [{
+						"weight": 25,
+						"num": 12
+					},
+					{
+						"weight": 22.5,
+						"num": 12
+					}
+				]
+			}]
+		}
+	}
+}

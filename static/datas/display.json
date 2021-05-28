@@ -1,0 +1,35 @@
+{
+  "home":[
+    {
+      "name": "whr",
+      "items":[
+        {
+          "item": "bust.relaxed",
+          "name": "胸围"
+        },
+        {
+          "item": "waist.relaxed",
+          "name": "腰围"
+        },{
+          "item": "hipline.relaxed",
+          "name": "臀围"
+        },{
+          "item": "upperarm.relaxed",
+          "name": "上臂围"
+        },{
+          "item": "thigh.relaxed",
+          "name": "大腿围"
+        }
+      ]
+    },
+    {
+      "name": "bmi",
+      "items":[
+        {
+          "item": "weight",
+          "name": "体重"
+        }
+      ]
+    }
+  ]
+}

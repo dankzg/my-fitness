@@ -1,0 +1,25 @@
+{
+	"data": {
+		"whr": {
+		},
+		"bmi": {
+			"weight": 86.5,
+			"bmi": 27,
+			"bfr": 26.7
+		},
+		"fitness": {
+			"chest": [{
+				"name": "Incline Bench Press",
+				"nums": [{
+						"weight": 25,
+						"num": 12
+					},
+					{
+						"weight": 22.5,
+						"num": 12
+					}
+				]
+			}]
+		}
+	}
+}

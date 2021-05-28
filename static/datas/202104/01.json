@@ -1,0 +1,13 @@
+{
+	"data": {
+		"whr": {
+			"chest": {
+				"quiet": 114,
+				"inhaled": 130,
+				"exhaled": 115
+			},
+      "waist": 95
+		},
+		"bmi": {}
+	}
+}
