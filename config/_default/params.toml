@@ -1,0 +1,5 @@
+[home]
+  [home.whr]
+    display = ["bust.relaxed","waist.relaxed","hipline.relaxed","upper-arm.relaxed","thigh.relaxed"]
+  [home.bmi]
+    display = []

@@ -1,0 +1,13 @@
+[en]
+title = "My Body"
+contentDir = "content/en"
+languageName = "English"
+languageCode = "en"
+weight = 2
+
+[cn]
+title = "我的身体"
+contentDir = "content/cn"
+languageName = "China"
+languageCode = "zh-cn"
+weight = 1

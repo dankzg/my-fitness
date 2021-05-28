@@ -1,0 +1,24 @@
+DefaultContentLanguage = "cn"
+copyright = "Everything is mine"
+baseURL = "http://www.mybody.com/"
+uglyurls = true
+Paginate = 100
+
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = true
+  [[related.indices]]
+    name = "keywords"
+    weight = 100
+  [[related.indices]]
+    name = "date"
+    weight = 100
+  [[related.indices]]
+    name = "categories"
+    weight = 90
+
+[taxonomies]
+section = "sections"
+category = "categories"
+tag = "tags"
