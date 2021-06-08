@@ -5,8 +5,8 @@
 
 <body class="bg-main text-xs" style="font-size:14px">
   <div id="app">
-    <header class="bg-gray-500 bg-opacity-100 text-white p-2">
-      <nav class="flex flex-row w-full">
+    <header class="bg-gray-500 bg-opacity-100 text-white p-2 fixed shadow-md  z-50 w-full">
+      <nav class="flex flex-row">
         <div class="flex-1 w-auto">
           <ul class="flex flex-row">
             <li class="mr-2"><a href="https://mail.google.com"><i class="el-icon-edit"></i></a></li>
@@ -22,13 +22,13 @@
       </nav>
     </header>
     <main class="flex flex-row">
-      <div class="w-2/3">
+      <div class="w-2/3 mt-10">
         <div class="relative m-4">
           <div class="border-r-4 border-gray-500 absolute h-full top-2 z-0 pl-2.5"></div>
           <ul class="list-none m-0 p-0">
             <li class="mb-2">
               <div class="flex items-center mb-5">
-                <div class="flex flex-row rounded-full border-2 border-black text-white p-1 bg-card z-50">
+                <div class="flex flex-row rounded-full border-2 border-black text-white p-1 bg-card z-10">
                   <div class="bg-gray-500 rounded-full h-4 w-4 border-2 border-main mr-2"></div>
                   <span class="mr-2" v-if="showDatePicker === false" @click="changeMonth">[[selMonthStr]]</span>
                   <span class="mr-2" v-if="showDatePicker === true">
@@ -42,7 +42,7 @@
             </li>
             <li class="mb-2 pl-2" v-for="(value,index) in homeDatas" :key="index">
               <div class="flex items-center mb-1">
-                <div class="bg-gray-500 rounded-full h-2 w-2 border-2 border-main z-50"></div>
+                <div class="bg-gray-500 rounded-full h-2 w-2 border-2 border-main z-10"></div>
                 <div class="text-gray-500 font-bold">---</div>
                 <div class="flex-1  font-medium">
                   <span
@@ -64,7 +64,7 @@
                       <ul class="flex flex-wrap">
                         <li class="w-1/3" v-for="(item,itemkey) in value.data.whr" :key="itemkey">
                           <div class="w-full text-gray-500">[[item.name]]</div>
-                          <span class="text-xs">[[item.num]]厘米</span>
+                          <span class="text-xs">[[item.num]] [[item.uom]]</span>
                         </li>
                       </ul>
                     </div>
@@ -74,9 +74,26 @@
                     v-if="value.data.bmi != undefined">
                     <div class="p-1 flex flex-row">
                       <div class="w-1/2">
-                      <i class="iconfont icon-jianshen-73 mr-2 text-blue-400 font-bold"></i>身体数据
+                        <i class="iconfont icon-jianshen-73 mr-2 text-blue-400 font-bold"></i>身体数据
                       </div>
                       <i class="el-icon-more text-right w-full" @click="displayInfo('bmi',index)"></i>
+                    </div>
+                    <div class="bg-black p-1">
+                      <ul class="flex flex-wrap">
+                        <li class="w-1/3" v-for="(item,itemkey) in value.data.bmi" :key="itemkey">
+                          <div class="w-full text-gray-500">[[item.name]]</div>
+                          <span class="text-xs">[[item.num]] [[item.uom]]</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
+                    v-if="value.data.strength != undefined">
+                    <div class="p-1 flex flex-row">
+                      <div class="w-1/2">
+                        <i class="iconfont icon-jianshen-77 mr-2 text-yellow-400 font-bold"></i>力量训练
+                      </div>
+                      <i class="el-icon-more text-right w-full" @click="displayInfo('strength',index)"></i>
                     </div>
                     <div class="bg-black p-1">
                       <ul class="flex flex-wrap">
@@ -104,33 +121,22 @@
                     </div>
                   </li>
                   <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
-                    v-if="value.data.fitness != undefined">
-                    <div class="p-1"><i class="iconfont icon-jianshen-77 mr-2 text-yellow-400 font-bold"></i>运动数据</div>
-                    <div class="bg-black p-1">
-                      <ul class="flex flex-wrap">
-                        <li class="w-1/3">
-                          <div class="w-full text-gray-500">BMI</div>
-                          <span class="text-xs">29.1</span>
-                        </li>
-                        <li class="w-1/3">
-                          <div class="w-full text-gray-500">脂肪率</div>
-                          <span class="text-xs">26.3%</span>
-                        </li>
-                        <li class="w-1/3">
-                          <div class="w-full text-gray-500">体重</div>
-                          <span class="text-xs">85.26 公斤</span>
-                        </li>
-                        <li class="w-1/3">
-                          <div class="w-full text-gray-500">去脂体重</div>
-                          <span class="text-xs">63.6 公斤</span>
-                        </li>
-                        <li class="w-1/3">
-                          <div class="w-full text-gray-500">基础代谢(天)</div>
-                          <span class="text-xs">1785 千卡</span>
-                        </li>
-                      </ul>
+                  v-if="value.data.aerobic != undefined">
+                  <div class="p-1 flex flex-row">
+                    <div class="w-1/2">
+                      <i class="iconfont icon-jianshen-3 mr-2 text-pink-400 font-bold"></i>有氧训练
                     </div>
-                  </li>
+                    <i class="el-icon-more text-right w-full" @click="displayInfo('aerobic',index)"></i>
+                  </div>
+                  <div class="bg-black p-1">
+                    <ul class="flex flex-wrap">
+                      <li class="w-1/3" v-for="(item,itemkey) in value.data.aerobic" :key="itemkey">
+                        <div class="w-full text-gray-500">[[item.name]]</div>
+                        <span class="text-xs">[[item.num]] [[item.uom]]</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
                   <li class="rounded-tr-lg rounded-bl-lg border-2 border-black m-2 bg-card w-48"
                     v-if="value.data.foods != undefined">
                     <div class="p-1"><i class="iconfont icon-jianshen-62 mr-2 text-indigo-400 font-bold"></i>饮食数据</div>
@@ -161,7 +167,7 @@
           </ul>
         </div>
       </div>
-      <div class="flew-grow w-1/4">
+      <div class="flew-grow w-1/3 mt-10">
         {{block "main" .}}
         {{end}}
       </div>
@@ -172,6 +178,7 @@
   var app = new Vue({
     delimiters: ['[[', ']]'],
     el: "#app",
+    mixins: [mixin],
     data: function () {
       return {
         visible: false,
@@ -183,7 +190,8 @@
         selDatas: new Array(),
         configDatas: [],
         showTemplate: "whr",
-        moreInfo: {}
+        moreInfo: {},
+
       }
     },
     created: function () {
@@ -197,10 +205,17 @@
     },
     mounted: function () {
       this.getFiles(this.selMonth)
+      //this.echarts(this.selMonth,this.selDatas)
+    },
+    watch:{
+      selDatas: function(){
+        this.echarts(this.selMonth,this.selDatas)
+      }
     },
     computed: {
       homeDatas: function () {
         var datas = new Array()
+        //console.log(this.selDatas)
         this.selDatas.forEach((v, k) => {
           var cardData = {}
 
@@ -214,6 +229,7 @@
               if (num !== null && num !== undefined) {
                 itemDatas.push({
                   "name": item.name,
+                  "uom": item.uom,
                   "num": num
                 })
               }
@@ -307,6 +323,10 @@
   //ElementPlus.locale(ElementPlus.lang.zhCn)
 
   //app.use(ElementPlus).mount("#app");
+
+
+  // 使用刚指定的配置项和数据显示图表。
+  
 </script>
 
 </html>

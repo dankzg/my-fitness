@@ -1,5 +1,277 @@
 {{ define "partials/main/whr.html" }}
-<div class="rounded-lg border-2 border-black m-2 bg-card w-full">
-test
+<div class="rounded-lg border-2 border-black  bg-card w-1/3 fixed m-4 right-2">
+  <div id="chart1" class="w-full h-56"></div>
+  <div id="chart2" class="w-full h-60"></div>
 </div>
+<script>
+  var mixin = {
+    data: function () {
+      return {
+        weightList: [],
+        lbmList: [],
+        bfrList: [],
+        bmrList: [],
+        aeroList: [],
+        dietList: [],
+      }
+    },
+    methods: {
+      echarts: function (month, listDatas) {
+        let startMonth = moment(month)
+        let mDays = moment(month).endOf("month").format("DD")
+        console.log(mDays)
+        var days = []
+        for (i = 0; i < mDays; i++) {
+          days.push(startMonth.format("MM-DD"))
+          startMonth.add(1, "days")
+        }
+        //console.log(listDatas)
+        //console.log(days)
+        colDatas = this.computChartData(listDatas, days)
+
+        const myChart1 = echarts.init(document.getElementById('chart1'));
+        // 指定图表的配置项和数据
+        var option = {
+          textStyle: {
+            color: "#B9B8CE",
+            fontFamliy: "sans-serif",
+            fontSize: 12,
+            fontStyle: "normal",
+            fontWeight: "normal"
+          },
+          title: {
+            text: '折线图堆叠'
+          },
+          tooltip: {
+            trigger: 'axis'
+          },
+          axisPointer: {
+            link: {
+              xAxisIndex: 'all'
+            }
+          },
+          legend: {
+            data: ['体重', '去脂体重', '体脂率'],
+            textStyle: {
+              color: "#B9B8CE"
+            }
+          },
+          grid: [{
+            left: '3%',
+            right: '4%',
+            height: '80%',
+            containLabel: true
+          }],
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          xAxis: [{
+              type: 'category',
+              boundaryGap: false,
+              data: days
+            }
+            /*,{
+                          gridIndex: 1,
+                          type: 'category',
+                          boundaryGap: false,
+                          axisLine: {onZero: true},
+                          data: days,
+                          position: 'top'
+                      }*/
+          ],
+          yAxis: [{
+              type: 'value',
+              name: "重量",
+              axisLabel: {
+                formatter: '{value} 公斤'
+              }
+            },
+            {
+              type: 'value',
+              name: "体脂率",
+              min: 5,
+              axisLabel: {
+                formatter: '{value} %'
+              }
+            }
+            /*,
+                        {
+                          gridIndex: 1,
+                          name: "热量",
+                          type: 'value',
+                          axisLabel: {
+                              formatter: '{value} KCal'
+                          }
+                        }*/
+          ],
+          series: [{
+              name: '体重',
+              type: 'bar',
+              data: this.weightList,
+              connectNulls: true
+            },
+            {
+              name: '去脂体重',
+              type: 'bar',
+              data: this.lbmList,
+              connectNulls: true
+            }, {
+              name: '体脂率',
+              type: 'line',
+              yAxisIndex: 1,
+              data: this.bfrList,
+              connectNulls: true
+            }
+            /*,
+                        {
+                          name: '基础代谢',
+                          type: 'bar',
+                          xAxisIndex: 1,
+                          yAxisIndex: 1,
+                          //stack: "total",
+                          data: this.bmrList,
+                          connectNulls: true
+                        }/*,
+                        {
+                          name: '有氧运动',
+                          type: 'bar',
+                          xAxisIndex: 1,
+                          stack: "total",
+                          data: this.aeroList,
+                          connectNulls: true
+                        },{
+                          name: '饮食热量',
+                          type: 'bar',
+                          xAxisIndex: 1,
+                          stack: "total",
+                          data: this.dietList,
+                          connectNulls: true
+                        } */
+          ]
+        };
+        myChart1.setOption(option);
+
+        const myChart2 = echarts.init(document.getElementById('chart2'));
+        // 指定图表的配置项和数据
+        var option = {
+          textStyle: {
+            color: "#B9B8CE",
+            fontFamliy: "sans-serif",
+            fontSize: 12,
+            fontStyle: "normal",
+            fontWeight: "normal"
+          },
+          title: {
+            text: '折线图堆叠'
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          legend: {
+            data: ['基础代谢', '有氧热量', '饮食热量',"热量赤字"],
+            textStyle: {
+              color: "#B9B8CE"
+            }
+          },
+          grid: [{
+            left: '3%',
+            right: '4%',
+            height: '80%',
+            containLabel: true
+          }],
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          xAxis: [{
+            type: 'value'
+          }],
+          yAxis: [{
+            type: 'category',
+            axisTick: {
+              show: false
+            },
+            inverse: true,
+            data: days
+          }],
+          series: [{
+              name: '基础代谢',
+              type: 'bar',
+              stack: "total",
+              emphasis: {
+                focus: 'series'
+              },
+              data: this.bmrList,
+              connectNulls: true
+            },
+            {
+              name: '有氧热量',
+              type: 'bar',
+              stack: "total",
+              data: this.aeroList,
+              connectNulls: true
+            },
+            {
+              name: '饮食热量',
+              type: 'bar',
+              stack: "total",
+              data: this.dietList,
+              connectNulls: true
+            }
+          ]
+        };
+        myChart2.setOption(option);
+      },
+      computChartData(listDatas, days) {
+        let weights = new Array(days.length).fill("-")
+        let lbms = new Array(days.length).fill("-")
+        let bfrs = new Array(days.length).fill("-")
+        let bmrs = new Array(days.length).fill("-")
+        let aeros = new Array(days.length).fill("-")
+        let diets = new Array(days.length).fill("-")
+        for (var i in days) {
+          listDatas.find(function (item) {
+            dateStr = moment(item.date.val).format("MM-DD")
+            if (dateStr == days[i] && "data" in item) {
+              //console.log(item)
+              if ("bmi" in item.data) {
+                weights[i] = item.data.bmi.weight
+                lbms[i] = item.data.bmi.lbm
+                bfrs[i] = item.data.bmi.bfr
+                bmrs[i] = item.data.bmi.bmr
+              }
+              if ("aerobic" in item.data) {
+                aeros[i] = item.data.aerobic.cal
+              }
+              if("diet" in item.data){
+                var diet = item.data.diet
+                diets[i] = diet.reduce((prev,current,index,diet) => {
+                  return prev.cal+current.cal
+                }) * -1
+              }
+            }
+          })
+          //console.log(result)
+        }
+        this.weightList = weights
+        this.lbmList = lbms
+        this.bfrList = bfrs
+        this.bmrList = bmrs
+        this.aeroList = aeros
+        this.dietList = diets
+        //console.log(this.weightList)
+        //console.log(this.lbmList)
+        //console.log(this.bfrList)
+        //console.log(this.aeroList)
+        //console.log(this.dietList)
+      }
+    }
+  }
+</script>
 {{ end }}

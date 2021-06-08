@@ -5,20 +5,25 @@
       "items":[
         {
           "item": "bust.relaxed",
-          "name": "胸围"
+          "name": "胸围",
+          "uom": "厘米"
         },
         {
           "item": "waist.relaxed",
-          "name": "腰围"
+          "name": "腰围",
+          "uom": "厘米"
         },{
           "item": "hipline.relaxed",
-          "name": "臀围"
+          "name": "臀围",
+          "uom": "厘米"
         },{
           "item": "upperarm.relaxed",
-          "name": "上臂围"
+          "name": "上臂围",
+          "uom": "厘米"
         },{
           "item": "thigh.relaxed",
-          "name": "大腿围"
+          "name": "大腿围",
+          "uom": "厘米"
         }
       ]
     },
@@ -27,7 +32,118 @@
       "items":[
         {
           "item": "weight",
-          "name": "体重"
+          "name": "体重",
+          "uom": "公斤"
+        },
+        {
+          "item": "bmi",
+          "name": "BMI",
+          "uom": ""
+        },
+        {
+          "item": "bfr",
+          "name": "体脂率",
+          "uom": "%"
+        },
+        {
+          "item": "lbm",
+          "name": "去脂体重",
+          "uom": "公斤"
+        },
+        {
+          "item": "bmr",
+          "name": "基础代谢(天)",
+          "uom": "千卡"
+        },
+        {
+          "item": "muscle.tital",
+          "name": "骨骼肌",
+          "uom": "公斤"
+        }
+      ]
+    },
+    {
+      "name": "strength",
+      "items":[
+        {
+          "item": "chest",
+          "name": "胸",
+          "uom": ""
+        },
+        {
+          "item": "back",
+          "name": "背",
+          "uom": ""
+        },
+        {
+          "item": "shoulders",
+          "name": "肩",
+          "uom": ""
+        },
+        {
+          "item": "biceps",
+          "name": "二头肌",
+          "uom": ""
+        },
+        {
+          "item": "triceps",
+          "name": "三头肌",
+          "uom": ""
+        },
+        {
+          "item": "butt",
+          "name": "臀",
+          "uom": ""
+        },
+        {
+          "item": "thighs",
+          "name": "大腿",
+          "uom": ""
+        },
+        {
+          "item": "calves",
+          "name": "小腿",
+          "uom": ""
+        },
+        {
+          "item": "abs",
+          "name": "腹肌",
+          "uom": ""
+        }
+      ]
+    },
+    {
+      "name": "aerobic",
+      "items":[
+        {
+          "item": "type",
+          "name": "类型",
+          "uom": ""
+        },
+        {
+          "item": "cal",
+          "name": "热量",
+          "uom": "千卡"
+        },
+        {
+          "item": "time",
+          "name": "时长",
+          "uom": ""
+        },
+        {
+          "item": "heart.max",
+          "name": "最大心率",
+          "uom": ""
+        }
+      ]
+    },
+    {
+      "name": "diet",
+      "items": [
+        {
+          "item": "cal",
+          "name": "热量",
+          "uom": "千卡"
         }
       ]
     }

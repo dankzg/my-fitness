@@ -31,9 +31,28 @@
 			}
 		},
 		"bmi": {
-			"weight": 86.5,
-			"bmi": 27,
-			"bfr": 26.7
+			"weight": 84.10,
+			"bmi": 29.1,
+			"bfr": 25.7,
+			"lbm": 62.5,
+			"bmr": 1798,
+			"hr": 53,
+			"fat": {
+				"total": 22.1,
+				"lue": 0.9,
+				"rue": 0.9,
+				"lle": 4.2,
+				"rle": 4.1,
+				"torso": 12.0 
+			},
+			"muscle":{
+				"total": 34.8,
+				"lue": 3.7,
+				"rue": 3.6,
+				"lle": 9.8,
+				"rle": 9.5,
+				"torso": 8.2 				
+			}
 		},
 		"fitness": {
 			"chest": [{
