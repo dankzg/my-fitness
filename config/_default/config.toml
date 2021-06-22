@@ -1,6 +1,6 @@
 DefaultContentLanguage = "cn"
 copyright = "Everything is mine"
-baseURL = "http://www.mybody.com/"
+baseURL = "http://fitness.dankying.com"
 uglyurls = true
 Paginate = 100
 
