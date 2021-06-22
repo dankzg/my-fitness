@@ -17,12 +17,12 @@
           "name": "臀围",
           "uom": "厘米"
         },{
-          "item": "upperarm.relaxed",
-          "name": "上臂围",
+          "item": "lupperarm.relaxed",
+          "name": "左上臂围",
           "uom": "厘米"
         },{
-          "item": "thigh.relaxed",
-          "name": "大腿围",
+          "item": "rupperarm.relaxed",
+          "name": "右上臂围",
           "uom": "厘米"
         }
       ]
