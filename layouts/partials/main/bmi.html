@@ -1,0 +1,246 @@
+{{ define "partials/main/bmi.html" }}
+<div class="h-full">
+  <div id="bmiChart1" class="w-full h-1/2"></div>
+  <div id="bmiChart2" class="w-full h-1/2"></div>
+</div>
+<script>
+  var mixinBmi = {
+    data: function () {
+      return {
+        bmiChartList: {
+          weight: [],
+          lbm: [],
+          bfr: [],
+          bmr: [],
+          aero: [],
+          diet: [],
+          gap: []
+        },
+        bmiChart1: null,
+        bmiChart2: null
+      }
+    },
+    methods: {
+      bmiCharts: function (month, listDatas) {
+        let startMonth = moment(month)
+        let mDays = moment(month).endOf("month").format("DD")
+        //console.log(mDays)
+        var days = []
+        for (i = 0; i < mDays; i++) {
+          days.push(startMonth.format("MM-DD"))
+          startMonth.add(1, "days")
+        }
+        //console.log(listDatas)
+        //console.log(days)
+        colDatas = this.computBmiChartData(listDatas, days)
+
+        this.bmiChart1 = echarts.init(document.getElementById('bmiChart1'));
+        // 指定图表的配置项和数据
+        var option = {
+          textStyle: {
+            color: "#B9B8CE",
+            fontFamliy: "sans-serif",
+            fontSize: 12,
+            fontStyle: "normal",
+            fontWeight: "normal"
+          },
+          title: {
+            text: '折线图堆叠'
+          },
+          tooltip: {
+            trigger: 'axis'
+          },
+          axisPointer: {
+            link: {
+              xAxisIndex: 'all'
+            }
+          },
+          legend: {
+            data: ['体重', '去脂体重', '体脂率'],
+            textStyle: {
+              color: "#B9B8CE"
+            }
+          },
+          grid: [{
+            left: '3%',
+            right: '4%',
+            height: '80%',
+            containLabel: true
+          }],
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          xAxis: [{
+              type: 'category',
+              boundaryGap: false,
+              data: days
+            }
+          ],
+          yAxis: [{
+              type: 'value',
+              name: "重量",
+              axisLabel: {
+                formatter: '{value} 公斤'
+              }
+            },
+            {
+              type: 'value',
+              name: "体脂率",
+              min: 5,
+              axisLabel: {
+                formatter: '{value} %'
+              }
+            }
+          ],
+          series: [{
+              name: '体重',
+              type: 'bar',
+              data: this.bmiChartList.weight,
+              connectNulls: true
+            },
+            {
+              name: '去脂体重',
+              type: 'bar',
+              data: this.bmiChartList.lbm,
+              connectNulls: true
+            }, {
+              name: '体脂率',
+              type: 'line',
+              yAxisIndex: 1,
+              data: this.bmiChartList.bfr,
+              connectNulls: true
+            }
+          ]
+        };
+        this.bmiChart1.setOption(option);
+
+        this.bmiChart2 = echarts.init(document.getElementById('bmiChart2'));
+        // 指定图表的配置项和数据
+        var option = {
+          textStyle: {
+            color: "#B9B8CE",
+            fontFamliy: "sans-serif",
+            fontSize: 12,
+            fontStyle: "normal",
+            fontWeight: "normal"
+          },
+          title: {
+            text: '折线图堆叠'
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          legend: {
+            data: ['基础代谢', '有氧热量', '饮食热量',"热量缺口"],
+            textStyle: {
+              color: "#B9B8CE"
+            }
+          },
+          grid: [{
+            left: '3%',
+            right: '4%',
+            height: '80%',
+            containLabel: true
+          }],
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          xAxis: [{
+            type: 'value'
+          }],
+          yAxis: [{
+            type: 'category',
+            axisTick: {
+              show: false
+            },
+            inverse: true,
+            data: days
+          }],
+          series: [{
+              name: '基础代谢',
+              type: 'bar',
+              stack: "total",
+              emphasis: {
+                focus: 'series'
+              },
+              data: this.bmiChartList.bmr,
+              connectNulls: true
+            },
+            {
+              name: '有氧热量',
+              type: 'bar',
+              stack: "total",
+              data: this.bmiChartList.aero,
+              connectNulls: true
+            },
+            {
+              name: '饮食热量',
+              type: 'bar',
+              stack: "total",
+              data: this.bmiChartList.diet,
+              connectNulls: true
+            },
+            {
+              name: '热量缺口',
+              type: 'bar',
+              data: this.bmiChartList.gap,
+              connectNulls: true
+            }
+          ]
+        };
+        this.bmiChart2.setOption(option);
+        //console.log(this.$refs)
+        //window.addEventListener("show", () => { console.log("show tab");this.bmiChart2.resize();});
+      },
+      computBmiChartData(listDatas, days) {
+        let nAry = new Array(days.length).fill("-")
+        Object.keys(this.bmiChartList).forEach((key) => {
+          this.bmiChartList[key] = nAry.slice()
+        })
+        //console.log(this.bmiChartList)
+        for (var i in days) {
+          listDatas.find((item) => {
+            dateStr = moment(item.date.val).format("MM-DD")
+            if (dateStr == days[i] && "data" in item) {
+              //console.log(item)
+              if ("bmi" in item.data) {
+                this.bmiChartList.weight[i] = item.data.bmi.weight
+                this.bmiChartList.lbm[i] = item.data.bmi.lbm
+                this.bmiChartList.bfr[i] = item.data.bmi.bfr
+                this.bmiChartList.bmr[i] = item.data.bmi.bmr * -1
+              }
+              if ("aerobic" in item.data) {
+                this.bmiChartList.aero[i] = item.data.aerobic.cal * -1
+              }
+              if("diet" in item.data){
+                var diet = item.data.diet
+                this.bmiChartList.diet[i] = diet.reduce((prev,current,index,diet) => {
+                  return prev.cal+current.cal
+                })
+              }
+            }
+          })
+          //console.log(result)
+        }
+        this.bmiChartList.bmr.forEach((v,k) =>{
+          if(v !== "-" && this.bmiChartList.diet[k] !== "-"){
+            this.bmiChartList.gap[k] = v + this.bmiChartList.diet[k]
+          }
+        })
+      },
+      resizeBmiChart() {
+        console.log("resize chart")
+        this.bmiChart1.resize()
+        this.bmiChart2.resize()
+      }
+    }
+  }
+</script>
+{{ end }}
