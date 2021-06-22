@@ -1,0 +1,140 @@
+{
+	"data": {
+		"whr": {
+			"bust": {
+				"relaxed": 124,
+				"inhaled": 130,
+				"exhaled": 115
+			},
+			"waist": {
+				"relaxed": 87
+			},
+			"lupperarm": {
+				"relaxed": 30,
+				"tense": 35,
+				"lateral": 29
+			},
+			"rupperarm": {
+				"relaxed": 30,
+				"tense": 35,
+				"lateral": 29
+			},
+			"lforearm": {
+				"relaxed": 25,
+				"tense": 26
+			},
+			"rforearm": {
+				"relaxed": 25,
+				"tense": 26
+			},
+			"hipline": {
+				"relaxed": 96
+			},
+			"lthigh": {
+				"relaxed": 95,
+				"tense": 98
+			},
+			"rthigh": {
+				"relaxed": 95,
+				"tense": 98
+			},
+			"lcalf": {
+				"relaxed": 45,
+				"tense": 47
+			},
+			"rcalf": {
+				"relaxed": 45,
+				"tense": 47
+			}
+		},
+		"bmi": {
+			"weight": 86.40,
+			"bmi": 29.2,
+			"bfr": 26.3,
+			"lbm": 63.7,
+			"bmr": 1787,
+			"hr": 51.3,
+			"fat": {
+				"total": 22.7,
+				"lue": 0.9,
+				"rue": 0.9,
+				"lle": 4.3,
+				"rle": 4.2,
+				"torso": 12.4 
+			},
+			"muscle":{
+				"total": 34.6,
+				"lue": 3.7,
+				"rue": 3.7,
+				"lle": 9.4,
+				"rle": 9.5,
+				"torso": 8.3 				
+			}
+		},
+		"strength": {
+			"chest": [{
+				"name": "上斜哑铃卧推",
+				"nums": [{
+						"weight": 25,
+						"num": 12
+					},
+					{
+						"weight": 22.5,
+						"num": 12
+					}
+				]
+			},{
+				"name": "蝴蝶机夹胸",
+				"nums":[{
+					"weight": 36,
+					"num": 10
+				},{
+					"weight": 34,
+					"num": 10
+				}]
+			}]
+		},
+		"aerobic":{
+			"type": "室内跑步",
+			"cal": 186,
+			"time": "0:22:38",
+			"heart":{
+				"max": 131,
+				"min": 96,
+				"avg": 117
+			}
+		},
+		"diet":[
+			{
+				"cal": 450,
+				"food":[
+					{
+						"name": "鸡蛋",
+						"num": 2
+					},
+					{
+						"name": "玉米",
+						"num": 1
+					},
+					{
+						"name": "餐包",
+						"num": 1
+					}
+				]
+			},
+			{
+				"cal": 210,
+				"food":[
+					{
+						"name": "荔枝",
+						"num": 8
+					},
+					{
+						"name": "黄杏",
+						"num": 3
+					}
+				]
+			}
+		]
+	}
+}

@@ -1,0 +1,89 @@
+{
+	"data": {
+		"whr": {
+			"bust": {
+				"relaxed": 120,
+				"inhaled": 130,
+				"exhaled": 115
+			},
+			"waist": {
+				"relaxed": 95
+			},
+			"lupperarm": {
+				"relaxed": 29,
+				"tense": 35,
+				"lateral": 29
+			},
+			"rupperarm": {
+				"relaxed": 29,
+				"tense": 35,
+				"lateral": 29
+			},
+			"lforearm": {
+				"relaxed": 25,
+				"tense": 26
+			},
+			"rforearm": {
+				"relaxed": 25,
+				"tense": 26
+			},
+			"hipline": {
+				"relaxed": 96
+			},
+			"lthigh": {
+				"relaxed": 95,
+				"tense": 98
+			},
+			"rthigh": {
+				"relaxed": 95,
+				"tense": 98
+			},
+			"lcalf": {
+				"relaxed": 45,
+				"tense": 47
+			},
+			"rcalf": {
+				"relaxed": 45,
+				"tense": 47
+			}
+		},
+		"bmi": {
+			"weight": 85.65,
+			"bmi": 28.9,
+			"bfr": 25.5,
+			"lbm": 63.8,
+			"bmr": 1790,
+			"hr": 52.4,
+			"fat": {
+				"total": 21.8,
+				"lue": 0.9,
+				"rue": 0.9,
+				"lle": 4.1,
+				"rle": 4.2,
+				"torso": 11.7 
+			},
+			"muscle":{
+				"total": 34.7,
+				"lue": 3.6,
+				"rue": 3.8,
+				"lle": 9.5,
+				"rle": 9.6,
+				"torso": 8.2 				
+			}
+		},
+		"fitness": {
+			"chest": [{
+				"name": "Incline Bench Press",
+				"nums": [{
+						"weight": 25,
+						"num": 12
+					},
+					{
+						"weight": 22.5,
+						"num": 12
+					}
+				]
+			}]
+		}
+	}
+}
