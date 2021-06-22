@@ -8,10 +8,7 @@
     <header class="bg-gray-500 bg-opacity-100 text-white p-2 fixed shadow-md  z-50 w-full">
       <nav class="flex flex-row">
         <div class="flex-1 w-auto">
-          <ul class="flex flex-row">
-            <li class="mr-2"><a href="https://mail.google.com"><i class="el-icon-edit"></i></a></li>
-            <li><a href="https://mail.google.com"><i class="el-icon-edit"></i></a></li>
-          </ul>
+       <!-- Go to www.addthis.com/dashboard to customize your tools --> <div class="addthis_inline_follow_toolbox"></div>
         </div>
         <div class="flex-none w-32">
           <ul class="datetime text-right flex flex-row space-x-1 right-0">
@@ -173,12 +170,13 @@
       </div>
     </main>
   </div>
+<!-- Go to www.addthis.com/dashboard to customize your tools --> <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ea6b3c986f76f83"></script>
 </body>
 <script>
   var app = new Vue({
     delimiters: ['[[', ']]'],
     el: "#app",
-    mixins: [mixin],
+    mixins: [mixinBmi,mixinWhr],
     data: function () {
       return {
         visible: false,
@@ -191,7 +189,8 @@
         configDatas: [],
         showTemplate: "whr",
         moreInfo: {},
-
+        tabIndex: 1,
+        activedTab: {}
       }
     },
     created: function () {
@@ -209,7 +208,13 @@
     },
     watch:{
       selDatas: function(){
-        this.echarts(this.selMonth,this.selDatas)
+        this.bmiCharts(this.selMonth,this.selDatas)
+        this.whrCharts(this.selMonth,this.selDatas)
+      },
+      activedTab: function(){
+        if(this.tabIndex == 0){
+          this.resizeBmiChart()
+        }
       }
     },
     computed: {
@@ -315,6 +320,14 @@
         console.log(index)
         //console.log(event)
         this.moreInfo = this.selDatas[index]
+      },
+      activeTab: function(tabIndex){
+        this.tabIndex = tabIndex
+        //this.activedTab = document.querySelector('#tab' + this.tabIndex);
+        this.$nextTick(() =>{
+          this.activedTab = document.querySelector('#tab' + this.tabIndex);
+          console.log(this.activedTab.offsetWidth)
+        })
       }
     }
   });
