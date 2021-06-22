@@ -1,25 +1,38 @@
 {{ define "partials/main/whr.html" }}
-<div class="rounded-lg border-2 border-black  bg-card w-1/3 fixed m-4 right-2">
-  <div id="chart1" class="w-full h-56"></div>
-  <div id="chart2" class="w-full h-60"></div>
+<!--围度信息-->
+<div class="h-full">
+  <div id="whrChart1" class="w-full h-1/2"></div>
+  <div id="whrChart2" class="w-full h-1/2"></div>
 </div>
 <script>
-  var mixin = {
+  var mixinWhr = {
     data: function () {
       return {
-        weightList: [],
-        lbmList: [],
-        bfrList: [],
-        bmrList: [],
-        aeroList: [],
-        dietList: [],
+        whrChartList: {
+          bust: [],
+          waist: [],
+          lupperarm: [],
+          rupperarm: [],
+          hipline: [],
+          lthigh: [],
+          rthigh: [],
+          lcalf: [],
+          rcalf: [],
+          torso: [],
+          lue: [],
+				  rue: [],
+				  lle: [],
+				  rle: []
+        },
+        whrChart1: null,
+        whrChart2: null,
       }
     },
     methods: {
-      echarts: function (month, listDatas) {
+      whrCharts: function (month, listDatas) {
         let startMonth = moment(month)
         let mDays = moment(month).endOf("month").format("DD")
-        console.log(mDays)
+        //console.log(mDays)
         var days = []
         for (i = 0; i < mDays; i++) {
           days.push(startMonth.format("MM-DD"))
@@ -27,11 +40,12 @@
         }
         //console.log(listDatas)
         //console.log(days)
-        colDatas = this.computChartData(listDatas, days)
+        this.computWhrChartData(listDatas, days)
 
-        const myChart1 = echarts.init(document.getElementById('chart1'));
+        this.whrChart1 = echarts.init(document.getElementById('whrChart1'));
+        this.whrChart2 = echarts.init(document.getElementById('whrChart2'))
         // 指定图表的配置项和数据
-        var option = {
+        var whrOption = {
           textStyle: {
             color: "#B9B8CE",
             fontFamliy: "sans-serif",
@@ -51,111 +65,80 @@
             }
           },
           legend: {
-            data: ['体重', '去脂体重', '体脂率'],
+            data: ['胸围', '腰围', '左上臂', '右上臂', '左大腿', '右大腿', '臀围'],
             textStyle: {
               color: "#B9B8CE"
             }
           },
           grid: [{
-            left: '3%',
-            right: '4%',
-            height: '80%',
-            containLabel: true
-          }],
+              left: '3%',
+              right: '4%',
+              height: '65%',
+              containLabel: true
+            }
+          ],
           toolbox: {
             feature: {
               saveAsImage: {}
             }
           },
           xAxis: [{
-              type: 'category',
-              boundaryGap: false,
-              data: days
-            }
-            /*,{
-                          gridIndex: 1,
-                          type: 'category',
-                          boundaryGap: false,
-                          axisLine: {onZero: true},
-                          data: days,
-                          position: 'top'
-                      }*/
-          ],
+            type: 'category',
+            boundaryGap: false,
+            data: days
+          }],
           yAxis: [{
-              type: 'value',
-              name: "重量",
-              axisLabel: {
-                formatter: '{value} 公斤'
-              }
-            },
-            {
-              type: 'value',
-              name: "体脂率",
-              min: 5,
-              axisLabel: {
-                formatter: '{value} %'
-              }
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} 厘米'
             }
-            /*,
-                        {
-                          gridIndex: 1,
-                          name: "热量",
-                          type: 'value',
-                          axisLabel: {
-                              formatter: '{value} KCal'
-                          }
-                        }*/
-          ],
+          }],
           series: [{
-              name: '体重',
-              type: 'bar',
-              data: this.weightList,
+              name: '胸围',
+              type: 'line',
+              data: this.whrChartList.bust,
               connectNulls: true
             },
             {
-              name: '去脂体重',
-              type: 'bar',
-              data: this.lbmList,
+              name: '腰围',
+              type: 'line',
+              data: this.whrChartList.waist,
+              connectNulls: true
+            },
+            {
+              name: '臀围',
+              type: 'line',
+              data: this.whrChartList.hipline,
+              connectNulls: true
+            },
+            {
+              name: '左上臂',
+              type: 'line',
+              data: this.whrChartList.lupperarm,
+              connectNulls: true
+            },
+            {
+              name: '右上臂',
+              type: 'line',
+              data: this.whrChartList.rupperarm,
               connectNulls: true
             }, {
-              name: '体脂率',
+              name: '左大腿',
               type: 'line',
-              yAxisIndex: 1,
-              data: this.bfrList,
+              data: this.whrChartList.lthigh,
+              connectNulls: true
+            },
+            {
+              name: '右大腿',
+              type: 'line',
+              data: this.whrChartList.rthigh,
               connectNulls: true
             }
-            /*,
-                        {
-                          name: '基础代谢',
-                          type: 'bar',
-                          xAxisIndex: 1,
-                          yAxisIndex: 1,
-                          //stack: "total",
-                          data: this.bmrList,
-                          connectNulls: true
-                        }/*,
-                        {
-                          name: '有氧运动',
-                          type: 'bar',
-                          xAxisIndex: 1,
-                          stack: "total",
-                          data: this.aeroList,
-                          connectNulls: true
-                        },{
-                          name: '饮食热量',
-                          type: 'bar',
-                          xAxisIndex: 1,
-                          stack: "total",
-                          data: this.dietList,
-                          connectNulls: true
-                        } */
           ]
         };
-        myChart1.setOption(option);
+        this.whrChart1.setOption(whrOption);
 
-        const myChart2 = echarts.init(document.getElementById('chart2'));
-        // 指定图表的配置项和数据
-        var option = {
+        var whrOption = {
           textStyle: {
             color: "#B9B8CE",
             fontFamliy: "sans-serif",
@@ -167,109 +150,124 @@
             text: '折线图堆叠'
           },
           tooltip: {
-            trigger: 'axis',
-            axisPointer: { // 坐标轴指示器，坐标轴触发有效
-              type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            trigger: 'axis'
+          },
+          axisPointer: {
+            link: {
+              xAxisIndex: 'all'
             }
           },
           legend: {
-            data: ['基础代谢', '有氧热量', '饮食热量',"热量赤字"],
+            data: ['左上肢', '右上肢', '左下肢', '右下肢', '躯干'],
             textStyle: {
               color: "#B9B8CE"
             }
           },
           grid: [{
-            left: '3%',
-            right: '4%',
-            height: '80%',
-            containLabel: true
-          }],
+              left: '3%',
+              right: '4%',
+              height: '65%',
+              containLabel: true
+            }
+          ],
           toolbox: {
             feature: {
               saveAsImage: {}
             }
           },
           xAxis: [{
-            type: 'value'
-          }],
-          yAxis: [{
             type: 'category',
-            axisTick: {
-              show: false
-            },
-            inverse: true,
+            boundaryGap: false,
             data: days
           }],
+          yAxis: [{
+            type: 'value',
+            axisLabel: {
+              formatter: '{value} 公斤'
+            }
+          }],
           series: [{
-              name: '基础代谢',
-              type: 'bar',
-              stack: "total",
-              emphasis: {
-                focus: 'series'
-              },
-              data: this.bmrList,
-              connectNulls: true
-            },
-            {
-              name: '有氧热量',
-              type: 'bar',
-              stack: "total",
-              data: this.aeroList,
-              connectNulls: true
-            },
-            {
-              name: '饮食热量',
-              type: 'bar',
-              stack: "total",
-              data: this.dietList,
+            name: '左上肢',
+            type: 'line',
+            data: this.whrChartList.lue,
+            connectNulls: true
+          },{
+            name: '右上肢',
+            type: 'line',
+            data: this.whrChartList.rue,
+            connectNulls: true
+          },{
+            name: '左下肢',
+            type: 'line',
+            data: this.whrChartList.lle,
+            connectNulls: true
+          },{
+            name: '右下肢',
+            type: 'line',
+            data: this.whrChartList.rle,
+            connectNulls: true
+          },{
+              name: '躯干',
+              type: 'line',
+              data: this.whrChartList.torso,
               connectNulls: true
             }
           ]
         };
-        myChart2.setOption(option);
+        this.whrChart2.setOption(whrOption)
+
+        //this.whrChart1.connect([this.whrChart2])
+        //this.whrChart2.connect([this.whrChart1])
+        echarts.connect([this.whrChart1,this.whrChart2])
       },
-      computChartData(listDatas, days) {
-        let weights = new Array(days.length).fill("-")
-        let lbms = new Array(days.length).fill("-")
-        let bfrs = new Array(days.length).fill("-")
-        let bmrs = new Array(days.length).fill("-")
-        let aeros = new Array(days.length).fill("-")
-        let diets = new Array(days.length).fill("-")
+      computWhrChartData(listDatas, days) {
+        let nAry = new Array(days.length).fill("-")
+        Object.keys(this.whrChartList).forEach((key) => {
+          this.whrChartList[key] = nAry.slice()
+        })
+        console.log(this.whrChartList)
         for (var i in days) {
-          listDatas.find(function (item) {
+          listDatas.find((item) => {
             dateStr = moment(item.date.val).format("MM-DD")
             if (dateStr == days[i] && "data" in item) {
               //console.log(item)
-              if ("bmi" in item.data) {
-                weights[i] = item.data.bmi.weight
-                lbms[i] = item.data.bmi.lbm
-                bfrs[i] = item.data.bmi.bfr
-                bmrs[i] = item.data.bmi.bmr
+              if ("whr" in item.data) {
+                this.whrChartList.bust[i] = item.data.whr.bust.relaxed
+                this.whrChartList.waist[i] = item.data.whr.waist.relaxed
+                this.whrChartList.lupperarm[i] = item.data.whr.lupperarm.relaxed
+                this.whrChartList.rupperarm[i] = item.data.whr.rupperarm.relaxed
+                this.whrChartList.hipline[i] = item.data.whr.hipline.relaxed
+                this.whrChartList.lthigh[i] = item.data.whr.lthigh.relaxed
+                this.whrChartList.rthigh[i] = item.data.whr.rthigh.relaxed
+                this.whrChartList.lcalf[i] = item.data.whr.lcalf.relaxed
+                this.whrChartList.rcalf[i] = item.data.whr.rcalf.relaxed
+              }
+              if("bmi" in item.data){
+                this.whrChartList.torso[i] = item.data.bmi.muscle.torso
+                this.whrChartList.lue[i] = item.data.bmi.muscle.lue
+                this.whrChartList.rue[i] = item.data.bmi.muscle.rue
+                this.whrChartList.lle[i] = item.data.bmi.muscle.lle
+                this.whrChartList.rle[i] = item.data.bmi.muscle.rle
+              }
+              /*if ("bmi" in item.data) {
+                this.whrChartList.weight[i] = item.data.bmi.weight
+                this.whrChartList.lbm[i] = item.data.bmi.lbm
+                this.whrChartList.bfr[i] = item.data.bmi.bfr
+                this.whrChartList.bmr[i] = item.data.bmi.bmr * -1
               }
               if ("aerobic" in item.data) {
-                aeros[i] = item.data.aerobic.cal
+                this.whrChartList.aero[i] = item.data.aerobic.cal * -1
               }
               if("diet" in item.data){
                 var diet = item.data.diet
-                diets[i] = diet.reduce((prev,current,index,diet) => {
+                this.whrChartList.diet[i] = diet.reduce((prev,current,index,diet) => {
                   return prev.cal+current.cal
-                }) * -1
-              }
+                })
+              }*/
             }
           })
           //console.log(result)
         }
-        this.weightList = weights
-        this.lbmList = lbms
-        this.bfrList = bfrs
-        this.bmrList = bmrs
-        this.aeroList = aeros
-        this.dietList = diets
-        //console.log(this.weightList)
-        //console.log(this.lbmList)
-        //console.log(this.bfrList)
-        //console.log(this.aeroList)
-        //console.log(this.dietList)
       }
     }
   }
